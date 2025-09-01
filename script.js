@@ -514,3 +514,44 @@ function copyToClipboard(text) {
         console.error('Erro ao copiar texto:', err);
     });
 }
+// Atualiza a lista de campos exibida
+function updateFieldList() {
+    fieldList.innerHTML = '';
+    fields.forEach((field, index) => {
+        const li = document.createElement('li');
+        li.textContent = field;
+
+        // Permite edição e exclusão apenas para campos que não são padrão
+        if (!defaultFields.includes(field)) {
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Editar';
+            editButton.addEventListener('click', () => editField(index));
+            li.appendChild(editButton);
+
+            // NOVO: Criação do botão de exclusão
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Excluir';
+            deleteButton.addEventListener('click', () => deleteField(index)); // Chama a nova função
+            li.appendChild(deleteButton);
+        }
+
+        fieldList.appendChild(li);
+    });
+}
+// Função para editar um campo
+function editField(index) {
+    // ... seu código da função editField existente ...
+}
+
+// NOVA FUNÇÃO: Exclui um campo da lista
+function deleteField(index) {
+    // Pede confirmação antes de excluir
+    if (confirm(`Tem certeza de que deseja excluir o campo "${fields[index]}"?`)) {
+        // Remove 1 item do array 'fields' na posição 'index'
+        fields.splice(index, 1);
+
+        // Atualiza a lista de campos e o formulário
+        updateFieldList();
+        updateDataForm();
+    }
+}
